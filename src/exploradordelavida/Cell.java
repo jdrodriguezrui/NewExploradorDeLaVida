@@ -1,43 +1,119 @@
 package exploradordelavida;
 
 import java.awt.Graphics;
+import javax.swing.JButton;
 
-//UBICAR LAS CELULAS EN UN TREEMAP EN EL TABLERO
-public class Cell {
+public class Cell extends JButton
+{
 
-    //LAS DIFERENTES ESPECIES HEREDAN DE CELL (?)
-    static int desfaultTurnsLeft = 0;
-    int turnsLeft = 0;
-    //Los valores de especie podría considerarse Estáticos
-    private boolean state;
-    //VALOR PARA USAR EN EL TREEMAP DE BOARD, UTIL EN LA COMPROBACION DE LAS CELULAS
+    // ----------------------------------------------------------------------------------- ATTRIBUTES
+
     private Position position;
-    private int specie;
-    
-    //Debería cell saber de sus vecinos, o es tarea de BOARD ?!?!? 
-    //Posiblemente de board... porque las muertas no tienen especie!!
-    //USAR CLASE POSITION (?)
-    private int x;
-    private int y;
+    private boolean isAlive;
+    private int species;
+    private int turnsToBeBornBlack;
+    private int turnsToBeBornGreen;
+    private int turnsToBeBornRed;
 
-    public void bringToLife(int specie) {
-        this.state = true;
-        this.specie = specie;
+    // ----------------------------------------------------------------------------------- CONSTANTS
+
+    public static final int NO_SPECIES = 0;
+    public static final int BLACK_SPECIES = 1;
+    public static final int GREEN_SPECIES = 2;
+    public static final int RED_SPECIES = 3;
+
+    // ----------------------------------------------------------------------------------- CONSTRUCTOR
+
+    public Cell ( Position newPosition )
+    {
+        this.position = newPosition;
+        this.isAlive = false;
+        this.species = this.NO_SPECIES;
+        this.turnsToBeBornBlack = 1;
+        this.turnsToBeBornGreen = 2;
+        this.turnsToBeBornRed = 3;
+
+        // IMPORTANT! We gotta link a Listener to the Cell here, on it's constructor. It would be done like this:
+        // this.addActionListener ( new CoolListener ( ) );
     }
 
-    public void turnToDeath() {
-        this.state = false;
-        this.specie = 0;
+    // ----------------------------------------------------------------------------------- METHODS
+
+    public void bringToLife ( int newSpecies )
+    {
+        this.species = newSpecies;
+        this.isAlive = true;
+        this.restartCounters ( );
     }
 
-    void paint(Graphics graphics, int x, int y) {
-        //paint rectangulo rellenito con borde de tamaño bla
-        //DEPENDE TANTO DE LA ESPECIE COMO DEL ESTADO DE LA CELULA
-
-        //DEJAR PARA LUEGO PLS
+    public void turnToDead ( )
+    {
+        this.species = this.NO_SPECIES;
+        this.isAlive = false;
     }
 
-    public Position getPosition() {
+    public void switchState ( )
+    {
+        this.isAlive = !this.isAlive;
+    }
+
+    private void restartCounters ( )
+    {
+        this.turnsToBeBornBlack = 1;
+        this.turnsToBeBornGreen = 2;
+        this.turnsToBeBornRed = 3;
+    }
+
+    public Position getPosition ( )
+    {
         return this.position;
     }
+
+    public int getSpecies (  )
+    {
+        return this.species;
+    }
+
+    public int getTurnsToBeBornBlack( )
+    {
+        return turnsToBeBornBlack;
+    }
+
+    public void setTurnsToBeBornBlack(int turnsToBeBornBlack)
+    {
+        this.turnsToBeBornBlack = turnsToBeBornBlack;
+    }
+
+    public int getTurnsToBeBornGreen()
+    {
+        return turnsToBeBornGreen;
+    }
+
+    public void setTurnsToBeBornGreen(int turnsToBeBornGreen)
+    {
+        this.turnsToBeBornGreen = turnsToBeBornGreen;
+    }
+
+    public int getTurnsToBeBornRed()
+    {
+        return turnsToBeBornRed;
+    }
+
+    public void setTurnsToBeBornRed(int turnsToBeBornRed)
+    {
+        this.turnsToBeBornRed = turnsToBeBornRed;
+    }
+
+    public boolean isAlive ()
+    {
+        return this.isAlive;
+    }
+
+    public void paint (Graphics graphics, int x, int y) // WHAT ON EARTH ARE X AND Y?
+    {
+        // Paints a full rectangle with side of length L (not given... yet)
+        // Depends on the species and on the cell's state (isAlive)
+    }
+
+
 }
