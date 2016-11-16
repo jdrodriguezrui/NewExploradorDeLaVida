@@ -1,6 +1,6 @@
 package exploradordelavida;
 
-import javafx.scene.control.TablePositionBase;
+//import javafx.scene.control.TablePositionBase;
 
 import java.util.ArrayList;
 
@@ -52,6 +52,7 @@ public class Position implements Comparable < Position >
         return areEqual;
     }
 
+    @Override
     public int compareTo ( Position otherPosition ) // I think this is here because and ONLY because we need to be
                                                     // able to find equal (by state) Position objects on a TreeMap
     {
@@ -93,5 +94,11 @@ public class Position implements Comparable < Position >
     public int getY ()
     {
         return this.y;
+    }
+    
+    @Override
+    public String toString()
+    {
+        return "("+this.x + ","+this.y+")";
     }
 }

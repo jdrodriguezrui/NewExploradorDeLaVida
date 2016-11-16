@@ -1,5 +1,7 @@
 package exploradordelavida;
 
+import java.awt.Graphics;
+import java.awt.GridLayout;
 import javax.swing.JPanel;
 import java.util.TreeMap;
 
@@ -9,18 +11,26 @@ public class Board extends JPanel
     // ----------------------------------------------------------------------------------- ATTRIBUTES
 
     private int sideLength; // IMPORTANT! Each unit is a cell... And this is a squared board.
-    private TreeMap <Position , Cell> cells;
-    private TreeMap <Position , Cell> oldGeneration; // This is for internal functioning only! It's filled in
-                                                     // checkNewGeneration and used - cleaned in checkOldGeneration,
-                                                     // and, by the way, contains the cells alive before
-                                                     // checkNewGeneration
+    public TreeMap <Position , Cell> cells = new TreeMap<>();
+    private TreeMap <Position , Cell> oldGeneration = new TreeMap<>(); // This is for internal functioning only! It's filled in
+                                                        // checkNewGeneration and used - cleaned in checkOldGeneration,
+                                                         // and, by the way, contains the cells alive before
+                                                        // checkNewGeneration
 
     // ----------------------------------------------------------------------------------- CONSTRUCTOR
 
     public Board ( int newSideLength )
     {
+        super();
         this.sideLength = newSideLength;
         this.fillBoard ( );
+        
+        //Graphic shit my boy
+        this.setLayout(new GridLayout(newSideLength,newSideLength));
+        for(Cell cell:this.cells.values())
+        {
+            this.add(cell);
+        }
     }
 
     // ----------------------------------------------------------------------------------- METHODS
@@ -29,12 +39,13 @@ public class Board extends JPanel
     {
         Position aPosition;
 
-        for ( int i = 0 ; i < this.sideLength ; i = i + 1 )
+        for ( int i = 1 ; i <= this.sideLength ; i = i + 1 )
         {
-            for ( int j = 0 ; j < this.sideLength ; j = j + 1 )
+            for ( int j = 1 ; j <= this.sideLength ; j = j + 1 )
             {
                 aPosition = new Position ( i , j );
-                this.cells.put ( aPosition , new Cell ( aPosition ) );
+                //NULL POINTER EXCEPTION
+                this.cells.put( aPosition , new Cell ( aPosition ) );
             }
         }
     }
@@ -174,45 +185,15 @@ public class Board extends JPanel
         this.checkOldGeneration();
     }
 
-    public void paint ( ) // Paints the board
-    {
-        // - - - - - - - - -  - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - !¡!¡!¡!
-    }
-
     public void doTurn ( )
     {
         this.refreshBoard ( );
-        this.paint ( );
+        this.repaint ( );
     }
 
-
-
-
-
-
-
-
-
-
-/*
-    void doTurn() {
-        //COMPROBAR CADA CELULA Y HACERLES SUS COSAS
-
-        //
+    @Override
+    public void paintComponent(Graphics graphics)
+    {
+        super.paintComponent(graphics);       
     }
-
-    //FUNCION PARA PINTAR EL COMPONENTE HACIENDO OVERRIDE A JPANEL
-    void paint() {
-        for (int i = 1; i < largoTablero; i++) {
-            for (int j = 1; j < largoTablero; i++) {
-                //PINTAR CELULA EN X Y
-                // X = i*anchoCELULA
-                // Y = j*anchoCELULA
-                //RESUMEN: LLAMAR EL METODO PAINT A TODAS LAS CELULAS
-            }
-        }
-    }
-
-
-    */
 }

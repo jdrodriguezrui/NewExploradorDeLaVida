@@ -1,10 +1,12 @@
 package exploradordelavida;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
-public class Cell extends JButton
-{
+public class Cell extends JButton {
 
     // ----------------------------------------------------------------------------------- ATTRIBUTES
 
@@ -23,97 +25,119 @@ public class Cell extends JButton
     public static final int RED_SPECIES = 3;
 
     // ----------------------------------------------------------------------------------- CONSTRUCTOR
-
-    public Cell ( Position newPosition )
-    {
+    public Cell(Position newPosition) {
+        super("");
         this.position = newPosition;
         this.isAlive = false;
-        this.species = this.NO_SPECIES;
+        this.species = Cell.NO_SPECIES;
         this.turnsToBeBornBlack = 1;
         this.turnsToBeBornGreen = 2;
         this.turnsToBeBornRed = 3;
 
         // IMPORTANT! We gotta link a Listener to the Cell here, on it's constructor. It would be done like this:
-        // this.addActionListener ( new CoolListener ( ) );
+        this.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                Cell.this.switchState(GameFrame.selectedSpecie);
+                Cell.this.repaint();
+            }
+        });
+
+        //DEFAULT DEAD COLOR!!
+        this.setBackground(Color.DARK_GRAY);
+        //TEST PURPOSE ONLY, CELLS MUST BE COLORFUL SQUARES ONLY!!
+        this.setText(this.position.toString());
+        this.setForeground(Color.WHITE);
     }
 
     // ----------------------------------------------------------------------------------- METHODS
-
-    public void bringToLife ( int newSpecies )
-    {
+    public void bringToLife(int newSpecies) {
         this.species = newSpecies;
         this.isAlive = true;
-        this.restartCounters ( );
+        this.restartCounters();
     }
 
-    public void turnToDead ( )
-    {
-        this.species = this.NO_SPECIES;
+    public void turnToDead() {
+        this.species = Cell.NO_SPECIES;
         this.isAlive = false;
     }
 
-    public void switchState ( )
-    {
-        this.isAlive = !this.isAlive;
+    public void switchState(int species) {
+        if (!this.isAlive) {
+            bringToLife(species);
+        } else {
+            turnToDead();
+        }
     }
 
-    private void restartCounters ( )
-    {
+    private void restartCounters() {
         this.turnsToBeBornBlack = 1;
         this.turnsToBeBornGreen = 2;
         this.turnsToBeBornRed = 3;
     }
 
-    public Position getPosition ( )
-    {
+    public Position getPosition() {
         return this.position;
     }
 
-    public int getSpecies (  )
-    {
+    public int getSpecies() {
         return this.species;
     }
 
-    public int getTurnsToBeBornBlack( )
-    {
+    public int getTurnsToBeBornBlack() {
         return turnsToBeBornBlack;
     }
 
-    public void setTurnsToBeBornBlack(int turnsToBeBornBlack)
-    {
+    public void setTurnsToBeBornBlack(int turnsToBeBornBlack) {
         this.turnsToBeBornBlack = turnsToBeBornBlack;
     }
 
-    public int getTurnsToBeBornGreen()
-    {
+    public int getTurnsToBeBornGreen() {
         return turnsToBeBornGreen;
     }
 
-    public void setTurnsToBeBornGreen(int turnsToBeBornGreen)
-    {
+    public void setTurnsToBeBornGreen(int turnsToBeBornGreen) {
         this.turnsToBeBornGreen = turnsToBeBornGreen;
     }
 
-    public int getTurnsToBeBornRed()
-    {
+    public int getTurnsToBeBornRed() {
         return turnsToBeBornRed;
     }
 
-    public void setTurnsToBeBornRed(int turnsToBeBornRed)
-    {
+    public void setTurnsToBeBornRed(int turnsToBeBornRed) {
         this.turnsToBeBornRed = turnsToBeBornRed;
     }
 
-    public boolean isAlive ()
-    {
+    public boolean isAlive() {
         return this.isAlive;
     }
 
-    public void paint (Graphics graphics, int x, int y) // WHAT ON EARTH ARE X AND Y?
-    {
-        // Paints a full rectangle with side of length L (not given... yet)
-        // Depends on the species and on the cell's state (isAlive)
+    @Override
+    public void paintComponent(Graphics graphics) {
+        super.paintComponent(graphics);
+
+        // Depends on the species and on the cell's state (isAlive) SWITCH MAGICO
+        if (!this.isAlive) {
+            this.setBackground(Color.DARK_GRAY);
+        } else {
+            switch (this.species) {
+                case Cell.BLACK_SPECIES:
+                    this.setBackground(Color.BLACK);
+                    break;
+                case Cell.GREEN_SPECIES:
+                    this.setBackground(Color.GREEN);
+                    break;
+                case Cell.RED_SPECIES:
+                    this.setBackground(Color.RED);
+                    break;
+            }
+        }
+
     }
-
-
+    
+    @Override
+    public String toString()
+    {
+        return "Cell, specie "+this.species+" Is alive? "+this.isAlive;
+    }
 }
