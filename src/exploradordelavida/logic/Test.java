@@ -1,6 +1,4 @@
-package exploradordelavida;
-
-import java.util.TreeMap;
+package exploradordelavida.logic;
 
 public class Test
 {

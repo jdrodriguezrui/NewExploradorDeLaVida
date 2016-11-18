@@ -1,6 +1,4 @@
-package exploradordelavida;
-
-//import javafx.scene.control.TablePositionBase;
+package exploradordelavida.logic;
 
 import java.util.ArrayList;
 
@@ -22,50 +20,36 @@ public class Position implements Comparable < Position >
 
     // ----------------------------------------------------------------------------------- METHODS
 
-    @Override
-    public boolean equals ( Object object ) // This wasn't necessary but it looks fancy :)
-    {
-        boolean areEqual;
-        areEqual = true;
-
-        if ( object == null )
-        {
-            areEqual = false;
-        }
-        else if ( this.getClass() != object.getClass() )
-        {
-            areEqual = false;
-        }
-        else
-        {
-            Position theOtherPosition;
-            theOtherPosition = ( Position ) ( object );
-
-            boolean conditionA = ( this.getX() == theOtherPosition.getX() );
-            boolean conditionB = ( this.getY() == theOtherPosition.getY() );
-            if ( !conditionA || !conditionB )
-            {
-                areEqual = false;
-            }
-        }
-
-        return areEqual;
-    }
-
-    @Override
+   @Override
     public int compareTo ( Position otherPosition ) // I think this is here because and ONLY because we need to be
                                                     // able to find equal (by state) Position objects on a TreeMap
     {
         int returnValue;
 
-        if ( this.equals ( otherPosition ) )
+        if ( this.getY() > otherPosition.getY() )
         {
-            returnValue = 0;
+            returnValue = 1;
+        }
+        else if ( this.getY() < otherPosition.getY() )
+        {
+            returnValue = -1;
         }
         else
         {
-            returnValue = 1; // This means nothing!
+            if ( this.getX() > otherPosition.getX() )
+            {
+                returnValue = 1;
+            }
+            else if ( this.getX() < otherPosition.getX() )
+            {
+                returnValue = -1;
+            }
+            else
+            {
+                returnValue = 0;
+            }
         }
+
 
         return returnValue;
     }
@@ -91,14 +75,14 @@ public class Position implements Comparable < Position >
         return this.x;
     }
 
-    public int getY ()
+    public int getY ( )
     {
         return this.y;
     }
-    
+
     @Override
-    public String toString()
+    public String toString ( ) // *DP*
     {
-        return "("+this.x + ","+this.y+")";
+        return ( "(" + this.x + "," + this.y + ")" );
     }
 }

@@ -1,4 +1,4 @@
-package exploradordelavida;
+package exploradordelavida.logic;
 
 import java.awt.Graphics;
 import java.awt.GridLayout;
@@ -11,23 +11,26 @@ public class Board extends JPanel
     // ----------------------------------------------------------------------------------- ATTRIBUTES
 
     private int sideLength; // IMPORTANT! Each unit is a cell... And this is a squared board.
-    public TreeMap <Position , Cell> cells = new TreeMap<>();
-    private TreeMap <Position , Cell> oldGeneration = new TreeMap<>(); // This is for internal functioning only! It's filled in
+    public TreeMap <Position , Cell> cells;
+    private TreeMap <Position , Cell> oldGeneration;
+                                                        // This is for internal functioning only! It's filled in
                                                         // checkNewGeneration and used - cleaned in checkOldGeneration,
-                                                         // and, by the way, contains the cells alive before
+                                                        // and, by the way, contains the cells alive before
                                                         // checkNewGeneration
 
     // ----------------------------------------------------------------------------------- CONSTRUCTOR
 
     public Board ( int newSideLength )
     {
-        super();
+        super( );
         this.sideLength = newSideLength;
+        this.cells = new TreeMap < Position , Cell > ( );
+        this.oldGeneration = new TreeMap < Position , Cell > ( );
         this.fillBoard ( );
-        
+
         //Graphic shit my boy
-        this.setLayout(new GridLayout(newSideLength,newSideLength));
-        for(Cell cell:this.cells.values())
+        this.setLayout ( new GridLayout ( this.sideLength , this.sideLength ) );
+        for ( Cell cell : this.cells.values ( ) )
         {
             this.add(cell);
         }
@@ -43,20 +46,24 @@ public class Board extends JPanel
         {
             for ( int j = 1 ; j <= this.sideLength ; j = j + 1 )
             {
-                aPosition = new Position ( i , j );
-                //NULL POINTER EXCEPTION
+                aPosition = new Position ( j , i );
                 this.cells.put( aPosition , new Cell ( aPosition ) );
             }
         }
     }
 
-    public void saveOldGeneration ( )
+    public void saveOldGeneration ( ) // We put new objects here so that their life isn't depending upon their
+                                      // "equals" on this.cells
     {
-        for ( Cell cell : this.cells.values () )
+        Cell cellToPut;
+
+        for ( Cell cell : this.cells.values ( ) )
         {
             if ( cell.isAlive() )
             {
-                this.oldGeneration.put ( cell.getPosition() , cell );
+                cellToPut = new Cell ( cell.getPosition() );
+                cellToPut.setSpecies ( cell.getSpecies ( ) );
+                this.oldGeneration.put ( cell.getPosition() , cellToPut ); // CHANGES ALL OVER HERE!
             }
         }
     }
@@ -70,12 +77,7 @@ public class Board extends JPanel
 
         for ( Cell cell : this.cells.values() )
         {
-
-            if ( cell.isAlive() )  // If the cell is alive, going through this makes no sense!
-            {
-                continue;
-            }
-            else
+            if ( !cell.isAlive() )
             {
                 blackCellsAround = 0;
                 greenCellsAround = 0;
@@ -83,7 +85,7 @@ public class Board extends JPanel
 
                 for ( Position position : cell.getPosition().adjacentPositions() )
                 {
-                    neighbour = this.cells.get ( position );
+                    neighbour = this.oldGeneration.get ( position ); // CHANGE: It used to be -this.cells.get-
 
                     if ( neighbour != null )
                     {
@@ -152,28 +154,30 @@ public class Board extends JPanel
 
     public void checkOldGeneration ( ) // We must not go over the cells we just gave birth to!
     {
-        int sameSpeciesCellsAroung;
+        int sameSpeciesCellsAround;
         Cell neighbour;
 
         for ( Cell cell : this.oldGeneration.values ( ) )
         {
-            sameSpeciesCellsAroung = 0;
+            System.out.println (); // *DP*
+            sameSpeciesCellsAround = 0;
             for ( Position position : cell.getPosition().adjacentPositions() )
             {
-                neighbour = this.cells.get ( position );
+                neighbour = this.oldGeneration.get ( position );
 
                 if ( neighbour != null )
                 {
                     if ( neighbour.getSpecies() == cell.getSpecies() )
                     {
-                        sameSpeciesCellsAroung = sameSpeciesCellsAroung + 1;
+                        sameSpeciesCellsAround = sameSpeciesCellsAround + 1;
                     }
                 }
             }
 
-            if ( ( sameSpeciesCellsAroung < 2 ) || ( sameSpeciesCellsAroung > 3 ) )
+
+            if ( ( sameSpeciesCellsAround < 2 ) || ( sameSpeciesCellsAround > 3 ) )
             {
-                cell.turnToDead ( );
+                this.cells.get ( cell.getPosition() ).turnToDead();
             }
         }
     }
@@ -183,6 +187,7 @@ public class Board extends JPanel
         this.saveOldGeneration();
         this.checkNewGeneration();
         this.checkOldGeneration();
+        this.oldGeneration.clear();
     }
 
     public void doTurn ( )
@@ -191,9 +196,18 @@ public class Board extends JPanel
         this.repaint ( );
     }
 
-    @Override
-    public void paintComponent(Graphics graphics)
+    public void clearBoard ()
     {
-        super.paintComponent(graphics);       
+        for ( Cell cell : this.cells.values () )
+        {
+            cell.turnToDead();
+        }
+        this.repaint ( );
+    }
+
+    @Override
+    public void paintComponent( Graphics graphics )
+    {
+        super.paintComponent( graphics );
     }
 }

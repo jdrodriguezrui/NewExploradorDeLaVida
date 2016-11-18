@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package exploradordelavida;
+package exploradordelavida.logic;
 
 import helper.ComboBoxRenderer;
 import helper.FancyButton;
@@ -25,7 +25,7 @@ import javax.swing.WindowConstants;
  */
 public class GameFrame extends JFrame {
 
-    public Board gameBoard = new Board(4);
+    public Board gameBoard = new Board(16);
     private boolean isRunning;
     private Thread music;
     public static int selectedSpecie = Cell.BLACK_SPECIES;
@@ -41,6 +41,7 @@ public class GameFrame extends JFrame {
     }
 
     public void restartGame() {
+        gameBoard.clearBoard();
     }
 
     public void saveGame() {
@@ -167,7 +168,7 @@ public class GameFrame extends JFrame {
         restartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                doSimulation();
+                restartGame();
             }
         });
         menuPanel.add(restartButton);

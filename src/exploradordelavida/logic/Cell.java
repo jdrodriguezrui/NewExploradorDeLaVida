@@ -1,5 +1,6 @@
-package exploradordelavida;
+package exploradordelavida.logic;
 
+import helper.ClickListenerForCell;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -35,19 +36,11 @@ public class Cell extends JButton {
         this.turnsToBeBornRed = 3;
 
         // IMPORTANT! We gotta link a Listener to the Cell here, on it's constructor. It would be done like this:
-        this.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                Cell.this.switchState(GameFrame.selectedSpecie);
-                Cell.this.repaint();
-            }
-        });
+        this.addActionListener(new ClickListenerForCell(this));
 
         //DEFAULT DEAD COLOR!!
-        this.setBackground(Color.DARK_GRAY);
-        //TEST PURPOSE ONLY, CELLS MUST BE COLORFUL SQUARES ONLY!!
-        this.setText(this.position.toString());
-        this.setForeground(Color.WHITE);
+        this.setBackground(Color.DARK_GRAY.brighter());
+        //this.setText(this.position.toString());
     }
 
     // ----------------------------------------------------------------------------------- METHODS
@@ -107,6 +100,12 @@ public class Cell extends JButton {
     public void setTurnsToBeBornRed(int turnsToBeBornRed) {
         this.turnsToBeBornRed = turnsToBeBornRed;
     }
+    
+        public void setSpecies ( int newSpecies )
+    {
+        this.species = newSpecies;
+    }
+
 
     public boolean isAlive() {
         return this.isAlive;
@@ -118,7 +117,7 @@ public class Cell extends JButton {
 
         // Depends on the species and on the cell's state (isAlive) SWITCH MAGICO
         if (!this.isAlive) {
-            this.setBackground(Color.DARK_GRAY);
+            this.setBackground(Color.DARK_GRAY.brighter());
         } else {
             switch (this.species) {
                 case Cell.BLACK_SPECIES:

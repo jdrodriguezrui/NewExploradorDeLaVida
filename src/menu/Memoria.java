@@ -5,8 +5,8 @@
  */
 package menu;
 
-import exploradordelavida.Cell;
-import exploradordelavida.Position;
+import exploradordelavida.logic.Cell;
+import exploradordelavida.logic.Position;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;

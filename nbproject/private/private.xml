@@ -3,12 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/EDER%20H/Desktop/Proyecto/Proyecto/ExploradorDeLaVida/src/exploradordelavida/ExploradorDeLaVida.java</file>
-            <file>file:/C:/Users/EDER%20H/Desktop/Proyecto/Proyecto/ExploradorDeLaVida/src/helper/FancyButton.java</file>
-            <file>file:/C:/Users/EDER%20H/Desktop/Proyecto/Proyecto/ExploradorDeLaVida/src/helper/ComboBoxRenderer.java</file>
-            <file>file:/C:/Users/EDER%20H/Desktop/Proyecto/Proyecto/ExploradorDeLaVida/src/menu/Menu.java</file>
-            <file>file:/C:/Users/EDER%20H/Desktop/Proyecto/Proyecto/ExploradorDeLaVida/src/menu/Memoria.java</file>
-            <file>file:/C:/Users/EDER%20H/Desktop/Proyecto/Proyecto/ExploradorDeLaVida/src/exploradordelavida/Board.java</file>
+            <file>file:/C:/Users/julia/Desktop/programación/ExploradorDeLaVida/src/exploradordelavida/logic/Test.java</file>
+            <file>file:/C:/Users/julia/Desktop/programación/ExploradorDeLaVida/src/exploradordelavida/logic/Cell.java</file>
+            <file>file:/C:/Users/julia/Desktop/programación/ExploradorDeLaVida/src/exploradordelavida/logic/GameFrame.java</file>
         </group>
     </open-files>
 </project-private>
