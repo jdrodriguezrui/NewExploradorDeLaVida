@@ -79,6 +79,11 @@ public class Menu extends javax.swing.JFrame {
         nuevoBoton.setFont(new java.awt.Font("Papyrus", 3, 14)); // NOI18N
         nuevoBoton.setForeground(new java.awt.Color(204, 204, 204));
         nuevoBoton.setText("Nuevo Juego");
+        nuevoBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nuevoBotonActionPerformed(evt);
+            }
+        });
         getContentPane().add(nuevoBoton);
         nuevoBoton.setBounds(50, 50, 230, 31);
 
@@ -145,6 +150,10 @@ public class Menu extends javax.swing.JFrame {
             filechooser.hide();
         }
     }//GEN-LAST:event_cargarBotonActionPerformed
+
+    private void nuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoBotonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nuevoBotonActionPerformed
 
     /**
      * @param args the command line arguments

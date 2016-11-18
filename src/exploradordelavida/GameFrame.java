@@ -7,6 +7,7 @@ package exploradordelavida;
 
 import helper.ComboBoxRenderer;
 import helper.FancyButton;
+import helper.MusicThread;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,6 +27,7 @@ public class GameFrame extends JFrame {
 
     public Board gameBoard = new Board(4);
     private boolean isRunning;
+    private Thread music;
     public static int selectedSpecie = Cell.BLACK_SPECIES;
 
     //AQUI VA LO QUE USTEDES HACEN!! LOS BOTONES LLAMAN ESTAS FUNCIONES...
@@ -49,6 +51,10 @@ public class GameFrame extends JFrame {
 
     public void openMenu() {
     }
+    
+    public void stopMusic(){
+        music.stop();
+    }
 
     public GameFrame() {
         super("Explorador de la vida");
@@ -61,6 +67,10 @@ public class GameFrame extends JFrame {
 
         //Adding the game menu
         addGameMenu();
+        
+        //Initializing music
+        music = new MusicThread();
+        music.start();
 
         this.pack();
         this.setVisible(true);
@@ -69,6 +79,17 @@ public class GameFrame extends JFrame {
     private void addGameMenu() {
         JPanel menuPanel = new JPanel();
         menuPanel.setBackground(Color.GRAY);
+        
+        //---STOP THE MUSIC----
+        FancyButton musicButton = new FancyButton("volume", 1);
+        musicButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                System.out.println("Button pressed");
+                stopMusic();
+            }
+        });
+        menuPanel.add(musicButton);
         //------MENU---
         FancyButton menuButton = new FancyButton("Menu");
         menuButton.addActionListener(new ActionListener() {
