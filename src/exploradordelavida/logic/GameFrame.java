@@ -13,7 +13,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,7 +24,7 @@ import javax.swing.WindowConstants;
  */
 public class GameFrame extends JFrame {
 
-    public Board gameBoard = new Board(16);
+    public Board gameBoard = new Board(25);
     private boolean isRunning;
     private Thread music;
     public static int selectedSpecie = Cell.BLACK_SPECIES;
@@ -86,7 +85,6 @@ public class GameFrame extends JFrame {
         musicButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                System.out.println("Button pressed");
                 stopMusic();
             }
         });

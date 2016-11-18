@@ -3,8 +3,6 @@ package exploradordelavida.logic;
 import helper.ClickListenerForCell;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 
 public class Cell extends JButton {
@@ -40,7 +38,7 @@ public class Cell extends JButton {
 
         //DEFAULT DEAD COLOR!!
         this.setBackground(Color.DARK_GRAY.brighter());
-        //this.setText(this.position.toString());
+        //this.setText(this.position.toString()); *Testing only*
     }
 
     // ----------------------------------------------------------------------------------- METHODS
