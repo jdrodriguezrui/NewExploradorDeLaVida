@@ -119,7 +119,7 @@ public class Cell extends JButton {
         } else {
             switch (this.species) {
                 case Cell.BLACK_SPECIES:
-                    this.setBackground(Color.BLACK);
+                    this.setBackground(Color.YELLOW);
                     break;
                 case Cell.GREEN_SPECIES:
                     this.setBackground(Color.GREEN);

@@ -18,7 +18,7 @@ import java.util.TreeMap;
  * @author EDER H
  */
 public class Memoria {
-    private TreeMap<Position , Cell> memorisa;
+    public TreeMap<Position , Cell> memorisa;
     private String nombre;
 
     public String getNombre() {

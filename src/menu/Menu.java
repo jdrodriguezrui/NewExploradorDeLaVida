@@ -5,6 +5,7 @@
  */
 package menu;
 
+import exploradordelavida.logic.GameFrame;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -26,8 +27,7 @@ public class Menu extends javax.swing.JFrame {
     public Menu() {
         initComponents();
         this.recuerda = new Memoria();
-        this.setLocationRelativeTo(null);
-        
+        this.setLocationRelativeTo(null);        
     }
     
 
@@ -140,10 +140,8 @@ public class Menu extends javax.swing.JFrame {
             this.recuerda.setNombre(archivoSeleccionado.getName());
             try {
                 this.recuerda.abrir();
-            } catch (IOException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) { 
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException | ClassNotFoundException ex) { 
+                System.out.println("JFile chooser exception!");
             }
             
         }else if (opciones == JFileChooser.CANCEL_OPTION) {//En caso de que cancelen la operación  solo cierre esa ventana
@@ -153,6 +151,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void nuevoBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuevoBotonActionPerformed
         // TODO add your handling code here:
+        new GameFrame();
     }//GEN-LAST:event_nuevoBotonActionPerformed
 
     /**
@@ -164,7 +163,7 @@ public class Menu extends javax.swing.JFrame {
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
          */
-        try {
+        /*try { MATË ESTO PORQUE HACÏA EL JUEGO SUUUUPER LENTO :(
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
@@ -179,7 +178,7 @@ public class Menu extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
+        }*/
         //</editor-fold>
 
         /* Create and display the form */

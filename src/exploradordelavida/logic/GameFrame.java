@@ -13,10 +13,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import menu.Memoria;
 
 /**
  *
@@ -24,19 +30,49 @@ import javax.swing.WindowConstants;
  */
 public class GameFrame extends JFrame {
 
-    public Board gameBoard = new Board(25);
-    private boolean isRunning;
+    public Board gameBoard = new Board(50);
     private Thread music;
     public static int selectedSpecie = Cell.BLACK_SPECIES;
 
-    //AQUI VA LO QUE USTEDES HACEN!! LOS BOTONES LLAMAN ESTAS FUNCIONES...
+    //Persistencia boi
+    private Memoria memoria = new Memoria();
+    //Simulation boi
+    private int gameSpeed;
+    private Timer timer;
+
+    public GameFrame() {
+        super("Explorador de la vida");
+        this.setPreferredSize(new Dimension(800, 800));
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setLayout(new BorderLayout());
+        //Simulation stuff
+        this.setGameSpeed(1);                                               // NEW!!! Default speed = 1 second
+        this.timer = new Timer(this.gameSpeed, new EventListenerForSimulation(this)); // NEW!!!
+        //Adding the Game Board!!
+        this.getContentPane().add(gameBoard, BorderLayout.CENTER);
+
+        //Adding the game menu
+        addGameMenu();
+
+        //Initializing music
+        music = new MusicThread();
+        music.start();
+
+        this.pack();
+        this.setVisible(true);
+    }
+
+    //Internal Functions
     public void setGameSpeed(int secondsPerTurn) {
+        this.gameSpeed = secondsPerTurn * 250;
     }
 
     public void doSimulation() {
+        this.timer.start();
     }
 
     public void pauseSimulation() {
+        this.timer.stop();
     }
 
     public void restartGame() {
@@ -47,39 +83,36 @@ public class GameFrame extends JFrame {
     }
 
     public void loadGame() {
+        JFileChooser filechooser = new JFileChooser();
+        filechooser.setFileFilter(new FileNameExtensionFilter("Partida guardada .EJI", "EJI"));// Muestra solo los archivos de formato .EJI 
+        int opciones = filechooser.showOpenDialog(this);
+        if (opciones == JFileChooser.APPROVE_OPTION) { // Cuando selecciónan un archivo
+            File archivoSeleccionado = filechooser.getSelectedFile();
+            this.memoria.setNombre(archivoSeleccionado.getName());
+            try {
+                this.memoria.abrir();
+            } catch (IOException | ClassNotFoundException ex) {
+                System.out.println("JFile chooser exception!");
+            }
+
+        } else if (opciones == JFileChooser.CANCEL_OPTION) {//En caso de que cancelen la operación  solo cierre esa ventana
+            filechooser.hide();
+        }
+        gameBoard.cells = memoria.memorisa;
     }
 
     public void openMenu() {
     }
-    
-    public void stopMusic(){
+
+    public void stopMusic() {
         music.stop();
     }
 
-    public GameFrame() {
-        super("Explorador de la vida");
-        this.setPreferredSize(new Dimension(800, 800));
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setLayout(new BorderLayout());
-
-        //Adding the Game Board!!
-        this.getContentPane().add(gameBoard, BorderLayout.CENTER);
-
-        //Adding the game menu
-        addGameMenu();
-        
-        //Initializing music
-        music = new MusicThread();
-        music.start();
-
-        this.pack();
-        this.setVisible(true);
-    }
-
+    //Creating Buttons
     private void addGameMenu() {
         JPanel menuPanel = new JPanel();
         menuPanel.setBackground(Color.GRAY);
-        
+
         //---STOP THE MUSIC----
         FancyButton musicButton = new FancyButton("volume", 1);
         musicButton.addActionListener(new ActionListener() {
@@ -123,13 +156,11 @@ public class GameFrame extends JFrame {
         renderer.setPreferredSize(new Dimension(30, 30));
         specieSelector.setRenderer(renderer);
         specieSelector.setSelectedIndex(0);
-        specieSelector.addActionListener(new ActionListener()
-        {
+        specieSelector.addActionListener(new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent ae)
-            {
-                JComboBox cb = (JComboBox)ae.getSource();
-                Integer selectedValue = (Integer)cb.getSelectedItem();
+            public void actionPerformed(ActionEvent ae) {
+                JComboBox cb = (JComboBox) ae.getSource();
+                Integer selectedValue = (Integer) cb.getSelectedItem();
                 selectedSpecie = selectedValue;
             }
         });

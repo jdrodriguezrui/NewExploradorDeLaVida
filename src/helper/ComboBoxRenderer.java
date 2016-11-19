@@ -30,7 +30,7 @@ public class ComboBoxRenderer extends BasicComboBoxRenderer {
         super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);       
         switch (((Integer) value)) { 
             case 1:
-                this.setBackground(Color.BLACK);
+                this.setBackground(Color.YELLOW);
                 break;
             case 2:
                 this.setBackground(Color.GREEN);
