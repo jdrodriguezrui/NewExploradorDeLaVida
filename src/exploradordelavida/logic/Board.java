@@ -5,13 +5,14 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 import java.util.TreeMap;
 
-public class Board extends JPanel {
+public class Board extends JPanel implements java.io.Serializable {
 
     // ----------------------------------------------------------------------------------- ATTRIBUTES
     private final int sideLength; // IMPORTANT! Each unit is a cell... And this is a squared board.
     public TreeMap<Position, Cell> cells;
     private TreeMap<Position, Cell> oldGeneration;
     private final int drawingMargin = 3;
+    public static final int DEFAULT_SIZE = 50;
                                                         // This is for internal functioning only! It's filled in
     // checkNewGeneration and used - cleaned in checkOldGeneration,
     // and, by the way, contains the cells alive before

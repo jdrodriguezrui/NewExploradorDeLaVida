@@ -1,31 +1,26 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package menu;
 
-import exploradordelavida.logic.Cell;
-import exploradordelavida.logic.Position;
+import exploradordelavida.logic.Board;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.TreeMap;
+import java.io.ObjectOutputStream;
 
 /**
  *
  * @author EDER H
  */
-public class Memoria {
-    public TreeMap<Position , Cell> memorisa;
+public class Memoria implements java.io.Serializable{
+    private Board memorisa;
     private String nombre;
 
     public String getNombre() {
         return nombre;
     }
 
-    public void setMemorisa(TreeMap<Position, Cell> memorisa) {
+    public void setMemorisa(Board memorisa) {
         this.memorisa = memorisa;
     }
 
@@ -34,13 +29,30 @@ public class Memoria {
     }
     
     public Memoria(){
-        this.memorisa= new TreeMap<>();
+        this.memorisa= new Board(Board.DEFAULT_SIZE);
     }
+
+    public Board getMemorisa() {
+        return memorisa;
+    }
+    //---------------Metodo para abrir partidas-------------------------------- 
     public void abrir() throws FileNotFoundException, IOException, ClassNotFoundException{
         FileInputStream fINombre = new FileInputStream(this.nombre);
         ObjectInputStream oILector = new ObjectInputStream(fINombre);
-        TreeMap<Position , Cell> aux = (TreeMap) oILector.readObject();
-        this.memorisa=aux;
+        this.memorisa =  (Board) oILector.readObject();
+        
         oILector.close();
+        fINombre.close();
     }
-}
+    //---------------Metodo para guardar partidas----------------------------
+    public void guardar() throws IOException{
+        FileOutputStream fileStream = new FileOutputStream(this.nombre + ".EJI");
+        ObjectOutputStream OS = new ObjectOutputStream(fileStream);
+        OS.writeObject(this.memorisa);
+        OS.close();
+        fileStream.close();
+            
+        }
+    
+    }
+

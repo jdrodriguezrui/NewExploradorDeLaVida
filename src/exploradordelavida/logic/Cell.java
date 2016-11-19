@@ -5,7 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.JButton;
 
-public class Cell extends JButton {
+public class Cell extends JButton implements java.io.Serializable{
 
     // ----------------------------------------------------------------------------------- ATTRIBUTES
 

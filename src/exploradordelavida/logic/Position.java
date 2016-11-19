@@ -2,7 +2,7 @@ package exploradordelavida.logic;
 
 import java.util.ArrayList;
 
-public class Position implements Comparable < Position >
+public class Position implements Comparable < Position >,java.io.Serializable
 {
 
     // ----------------------------------------------------------------------------------- ATTRIBUTES

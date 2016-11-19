@@ -14,7 +14,10 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -23,6 +26,7 @@ import javax.swing.Timer;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import menu.Memoria;
+import menu.Menu;
 
 /**
  *
@@ -30,24 +34,56 @@ import menu.Memoria;
  */
 public class GameFrame extends JFrame {
 
-    public Board gameBoard = new Board(50);
+    public Board gameBoard;
     private Thread music;
     public static int selectedSpecie = Cell.BLACK_SPECIES;
 
     //Persistencia boi
-    private Memoria memoria = new Memoria();
+    private Memoria memoria;
     //Simulation boi
     private int gameSpeed;
     private Timer timer;
+    private FileNameExtensionFilter filtro = new FileNameExtensionFilter(".EJI", "EJI");
 
+    //-----------------STANDARD CONSTRUCTOR-----------------
     public GameFrame() {
         super("Explorador de la vida");
         this.setPreferredSize(new Dimension(800, 800));
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLayout(new BorderLayout());
+        this.gameBoard = new Board(Board.DEFAULT_SIZE);
+
+        this.memoria = new Memoria();
         //Simulation stuff
         this.setGameSpeed(1);                                               // NEW!!! Default speed = 1 second
         this.timer = new Timer(this.gameSpeed, new EventListenerForSimulation(this)); // NEW!!!
+        //Adding the Game Board!!
+        this.getContentPane().add(gameBoard, BorderLayout.CENTER);
+
+        //Adding the game menu
+        addGameMenu();
+
+        //Initializing music
+        music = new MusicThread();
+        music.start();
+
+        this.pack();
+        this.setVisible(true);
+    }
+
+    //--------------Constructor de cuando se carga una partida----------------------
+
+    public GameFrame(Board gameBoard) {
+        super("Explorador de la vida");
+        this.setPreferredSize(new Dimension(800, 800));
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setLayout(new BorderLayout());
+        this.memoria = new Memoria();
+        this.gameBoard = gameBoard;
+
+        //Simulation stuff
+        this.setGameSpeed(1);                                              
+        this.timer = new Timer(this.gameSpeed, new EventListenerForSimulation(this));
         //Adding the Game Board!!
         this.getContentPane().add(gameBoard, BorderLayout.CENTER);
 
@@ -79,31 +115,58 @@ public class GameFrame extends JFrame {
         gameBoard.clearBoard();
     }
 
-    public void saveGame() {
-    }
-
-    public void loadGame() {
-        JFileChooser filechooser = new JFileChooser();
-        filechooser.setFileFilter(new FileNameExtensionFilter("Partida guardada .EJI", "EJI"));// Muestra solo los archivos de formato .EJI 
-        int opciones = filechooser.showOpenDialog(this);
-        if (opciones == JFileChooser.APPROVE_OPTION) { // Cuando selecciónan un archivo
-            File archivoSeleccionado = filechooser.getSelectedFile();
-            this.memoria.setNombre(archivoSeleccionado.getName());
-            try {
-                this.memoria.abrir();
-            } catch (IOException | ClassNotFoundException ex) {
-                System.out.println("JFile chooser exception!");
-            }
-
-        } else if (opciones == JFileChooser.CANCEL_OPTION) {//En caso de que cancelen la operación  solo cierre esa ventana
-            filechooser.hide();
+    // -----------------------Guardar y cargar partida------------------------   
+    
+    public void saveGame() throws IOException {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(filtro);
+        int opcion = fileChooser.showSaveDialog(this);
+        if (opcion == JFileChooser.APPROVE_OPTION) {
+            File archivoSeleccionado = fileChooser.getSelectedFile();
+            this.memoria.setNombre(archivoSeleccionado.getAbsolutePath());
+            this.memoria.setMemorisa(getGameBoard());
+            this.memoria.guardar();
+        } else if (opcion == JFileChooser.CANCEL_OPTION) {
+            fileChooser.setVisible(false);
         }
-        gameBoard.cells = memoria.memorisa;
     }
 
+    public void loadGame() throws IOException, FileNotFoundException, ClassNotFoundException {
+        JFileChooser filechooser = new JFileChooser();
+        filechooser.setFileFilter(filtro);
+        int opcion = filechooser.showOpenDialog(this);
+        if (opcion == JFileChooser.APPROVE_OPTION) {
+            File archivoSeleccionado = filechooser.getSelectedFile();
+            this.memoria.setNombre(archivoSeleccionado.getAbsolutePath());
+            this.memoria.abrir();
+            hide();
+            music.stop();
+            new GameFrame(this.memoria.getMemorisa());
+
+        } else if (opcion == JFileChooser.CANCEL_OPTION) {
+            filechooser.hide();
+
+        }
+    }
+
+    //--------------Getter and Setter para gardar y cargar-----------------------
+    public Board getGameBoard() {
+        return gameBoard;
+    }
+
+    public void setGameBoard(Board gameBoard) {
+        this.gameBoard = gameBoard;
+    }
+
+    //Cierra el juego y abre otra vez el menú
     public void openMenu() {
+        music.stop();
+        hide();
+        Menu menu = new Menu();
+        menu.setVisible(true);
     }
 
+    //Para la música (Duh)
     public void stopMusic() {
         music.stop();
     }
@@ -136,7 +199,11 @@ public class GameFrame extends JFrame {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                saveGame();
+                try {
+                    saveGame();
+                } catch (IOException ex) {
+                    Logger.getLogger(GameFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         menuPanel.add(saveButton);
@@ -145,7 +212,11 @@ public class GameFrame extends JFrame {
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                loadGame();
+                try {
+                    loadGame();
+                } catch (IOException | ClassNotFoundException ex) {
+                    Logger.getLogger(GameFrame.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
         menuPanel.add(loadButton);
