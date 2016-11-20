@@ -3,8 +3,6 @@ package menu;
 import exploradordelavida.logic.GameFrame;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -27,7 +25,6 @@ public class Menu extends javax.swing.JFrame {
         initComponents();
         this.recuerda = new Memoria();
         this.setLocationRelativeTo(null);
-
     }
 
     /**
@@ -147,9 +144,10 @@ public class Menu extends javax.swing.JFrame {
             try {
                 this.recuerda.abrir();
             } catch (IOException | ClassNotFoundException ex) {
-                Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+                //Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex); no hacer nada xdxdxd
             }
             this.aux = new GameFrame(this.recuerda.getMemorisa());
+            hide();
 
         } else if (opciones == JFileChooser.CANCEL_OPTION) {//En caso de que cancelen la operación  solo cierre esa ventana
             filechooser.hide();
@@ -198,7 +196,6 @@ public class Menu extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override

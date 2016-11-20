@@ -2,10 +2,11 @@ package exploradordelavida.logic;
 
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.io.Serializable;
 import javax.swing.JPanel;
 import java.util.TreeMap;
 
-public class Board extends JPanel implements java.io.Serializable {
+public class Board extends JPanel implements Serializable {
 
     // ----------------------------------------------------------------------------------- ATTRIBUTES
     private final int sideLength; // IMPORTANT! Each unit is a cell... And this is a squared board.
@@ -27,20 +28,19 @@ public class Board extends JPanel implements java.io.Serializable {
         this.fillBoard();
 
         //Graphic shit my boy
-        this.setLayout(new GridLayout(this.sideLength-drawingMargin -2, this.sideLength-drawingMargin));
-        /*for (Cell cell : this.cells.values()) {
-            this.add(cell);     //DEPRECATED, UNABLE TO SET A MARGIN WITH THIS!!
-        }*/
+        
+        /*this.setLayout(new GridLayout(this.sideLength , this.sideLength ));
+        for (Cell cell : this.cells.values()) {
+         this.add(cell);     //DEPRECATED, UNABLE TO SET A MARGIN WITH THIS!!
+         }*/
+        this.setLayout(new GridLayout(this.sideLength - drawingMargin-2, this.sideLength - drawingMargin));
         Position aPosition;
-         for ( int i = drawingMargin ; i <= this.sideLength-drawingMargin ; i = i + 1 )
-         {
-         for ( int j = drawingMargin ; j <= this.sideLength-drawingMargin ; j = j + 1 )
-         {
-         aPosition = new Position ( j , i );
-         this.add(cells.get(aPosition));
-         }
-         }
-
+        for (int i = drawingMargin; i <= this.sideLength - drawingMargin; i = i + 1) {
+            for (int j = drawingMargin; j <= this.sideLength - drawingMargin; j = j + 1) {
+                aPosition = new Position(j, i);
+                this.add(cells.get(aPosition));
+            }
+        }
     }
 
     // ----------------------------------------------------------------------------------- METHODS

@@ -3,9 +3,10 @@ package exploradordelavida.logic;
 import helper.ClickListenerForCell;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.Serializable;
 import javax.swing.JButton;
 
-public class Cell extends JButton implements java.io.Serializable{
+public class Cell extends JButton implements Serializable{
 
     // ----------------------------------------------------------------------------------- ATTRIBUTES
 
