@@ -22,6 +22,9 @@ public class Creditos extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.GRAY);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.cerrarBoton.setOpaque(false);
+        this.cerrarBoton.setBorderPainted(false);
+        this.cerrarBoton.setContentAreaFilled(false);
     }
 
     /**
@@ -33,24 +36,79 @@ public class Creditos extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cerrarBoton = new javax.swing.JToggleButton();
+        tituloLabel = new javax.swing.JLabel();
+        edderLabel = new javax.swing.JLabel();
+        ivanLabel = new javax.swing.JLabel();
+        julianLabel = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Creditos");
         setBackground(new java.awt.Color(255, 255, 255));
         setMaximumSize(new java.awt.Dimension(358, 480));
         setMinimumSize(new java.awt.Dimension(358, 480));
+
+        cerrarBoton.setFont(new java.awt.Font("Papyrus", 3, 24)); // NOI18N
+        cerrarBoton.setForeground(new java.awt.Color(204, 204, 204));
+        cerrarBoton.setText("CERRAR");
+        cerrarBoton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cerrarBotonActionPerformed(evt);
+            }
+        });
+
+        tituloLabel.setFont(new java.awt.Font("Papyrus", 3, 24)); // NOI18N
+        tituloLabel.setText("Explorador De La Vida");
+
+        edderLabel.setFont(new java.awt.Font("Papyrus", 3, 18)); // NOI18N
+        edderLabel.setText("Edder Hernández Forero");
+
+        ivanLabel.setFont(new java.awt.Font("Papyrus", 3, 18)); // NOI18N
+        ivanLabel.setText("Ivan Alejandro Cruz Tole");
+
+        julianLabel.setFont(new java.awt.Font("Papyrus", 3, 18)); // NOI18N
+        julianLabel.setText("Julian Rodriguez Ruiz");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 358, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(71, 71, 71)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cerrarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(ivanLabel)
+                        .addComponent(edderLabel)
+                        .addComponent(julianLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(49, Short.MAX_VALUE)
+                .addComponent(tituloLabel)
+                .addGap(32, 32, 32))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 480, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(tituloLabel)
+                .addGap(69, 69, 69)
+                .addComponent(edderLabel)
+                .addGap(48, 48, 48)
+                .addComponent(ivanLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addComponent(julianLabel)
+                .addGap(101, 101, 101)
+                .addComponent(cerrarBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cerrarBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrarBotonActionPerformed
+        hide();
+    }//GEN-LAST:event_cerrarBotonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -89,5 +147,10 @@ public class Creditos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JToggleButton cerrarBoton;
+    private javax.swing.JLabel edderLabel;
+    private javax.swing.JLabel ivanLabel;
+    private javax.swing.JLabel julianLabel;
+    private javax.swing.JLabel tituloLabel;
     // End of variables declaration//GEN-END:variables
 }

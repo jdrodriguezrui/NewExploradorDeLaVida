@@ -6,6 +6,10 @@
 package menu;
 
 import java.awt.Color;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JToggleButton;
 
 /**
  *
@@ -20,15 +24,24 @@ public class Instrucciones extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.getContentPane().setBackground(Color.GRAY);
-        this.cerrarVentanaBoton.setOpaque(false);
-        this.cerrarVentanaBoton.setContentAreaFilled(false);
-        this.cerrarVentanaBoton.setBorderPainted(false);
-        this.avanzarPaginaBoton.setOpaque(false);
-        this.avanzarPaginaBoton.setContentAreaFilled(false);
-        this.avanzarPaginaBoton.setBorderPainted(false);
-        this.voleverPaginaBoton.setOpaque(false);
-        this.voleverPaginaBoton.setBorderPainted(false);
-        this.voleverPaginaBoton.setContentAreaFilled(false);
+        aparenciaBoton(cerrarVentanaBoton);
+        aparenciaBoton(avanzarPaginaBoton1);
+        aparenciaBoton(voleverPaginaBoton1);
+        aparenciaBoton(avanzarPaginaBoton2);
+        aparenciaBoton(voleverPaginaBoton2);
+        this.texto2.setBackground(Color.GRAY);
+        this.texto1.setBackground(Color.GRAY);
+        this.texto3.setBackground(Color.GRAY);
+        visible(false, voleverPaginaBoton1);
+        visible(false, texto2, jScrollPane2);
+        visible(false, texto3, jScrollPane3);
+        visible(false, voleverPaginaBoton2);
+        visible(false, avanzarPaginaBoton2);
+        visible(false, amarilloLabel);
+        visible(false, verdeLabel);
+        visible(false, rojoLabel);
+        visibleLabel(false);
+
     }
 
     /**
@@ -41,13 +54,33 @@ public class Instrucciones extends javax.swing.JFrame {
     private void initComponents() {
 
         cerrarVentanaBoton = new javax.swing.JToggleButton();
-        voleverPaginaBoton = new javax.swing.JToggleButton();
-        avanzarPaginaBoton = new javax.swing.JToggleButton();
+        voleverPaginaBoton1 = new javax.swing.JToggleButton();
+        avanzarPaginaBoton1 = new javax.swing.JToggleButton();
+        tituloLabel = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        texto1 = new javax.swing.JTextArea();
+        amarilloLabel = new javax.swing.JLabel();
+        verdeLabel = new javax.swing.JLabel();
+        rojoLabel = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        texto2 = new javax.swing.JTextArea();
+        avanzarPaginaBoton2 = new javax.swing.JToggleButton();
+        voleverPaginaBoton2 = new javax.swing.JToggleButton();
+        playLabel = new javax.swing.JLabel();
+        stepLabel = new javax.swing.JLabel();
+        pauseLabel = new javax.swing.JLabel();
+        stopLabel = new javax.swing.JLabel();
+        cargarLabel = new javax.swing.JLabel();
+        guardarLabel = new javax.swing.JLabel();
+        menuLabel = new javax.swing.JLabel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        texto3 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(358, 480));
-        setMinimumSize(new java.awt.Dimension(358, 480));
-        setPreferredSize(new java.awt.Dimension(358, 480));
+        setTitle("Instrucciones");
+        setMaximumSize(new java.awt.Dimension(385, 700));
+        setMinimumSize(new java.awt.Dimension(385, 700));
+        getContentPane().setLayout(null);
 
         cerrarVentanaBoton.setBackground(new java.awt.Color(204, 204, 204));
         cerrarVentanaBoton.setFont(new java.awt.Font("Papyrus", 3, 14)); // NOI18N
@@ -58,59 +91,241 @@ public class Instrucciones extends javax.swing.JFrame {
                 cerrarVentanaBotonActionPerformed(evt);
             }
         });
+        getContentPane().add(cerrarVentanaBoton);
+        cerrarVentanaBoton.setBounds(21, 603, 150, 45);
 
-        voleverPaginaBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/left-pointing-arrow.png"))); // NOI18N
-        voleverPaginaBoton.addActionListener(new java.awt.event.ActionListener() {
+        voleverPaginaBoton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/left-pointing-arrow.png"))); // NOI18N
+        voleverPaginaBoton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                voleverPaginaBotonActionPerformed(evt);
+                voleverPaginaBoton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(voleverPaginaBoton1);
+        voleverPaginaBoton1.setBounds(218, 603, 62, 45);
 
-        avanzarPaginaBoton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/right-arrow.png"))); // NOI18N
-        avanzarPaginaBoton.addActionListener(new java.awt.event.ActionListener() {
+        avanzarPaginaBoton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/right-arrow.png"))); // NOI18N
+        avanzarPaginaBoton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                avanzarPaginaBotonActionPerformed(evt);
+                avanzarPaginaBoton1ActionPerformed(evt);
             }
         });
+        getContentPane().add(avanzarPaginaBoton1);
+        avanzarPaginaBoton1.setBounds(298, 603, 62, 45);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(cerrarVentanaBoton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 75, Short.MAX_VALUE)
-                .addComponent(voleverPaginaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(avanzarPaginaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(416, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(avanzarPaginaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(voleverPaginaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cerrarVentanaBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19))
-        );
+        tituloLabel.setFont(new java.awt.Font("Papyrus", 3, 18)); // NOI18N
+        tituloLabel.setText("Instrucciones Explorador De La Vida");
+        getContentPane().add(tituloLabel);
+        tituloLabel.setBounds(21, 24, 326, 29);
+
+        texto1.setEditable(false);
+        texto1.setColumns(20);
+        texto1.setFont(new java.awt.Font("Papyrus", 0, 13)); // NOI18N
+        texto1.setLineWrap(true);
+        texto1.setRows(5);
+        texto1.setText("¡¡¡¡¡¡Bienvenidos a Explorador de la vida!!!!\n\nEste es un juego basado en el juego de la vida por el matemático inglés John Horton Conway, lanzado en el año 1970. Este es un autómata celular el cual trabaja bajo tres reglas descritas a continuación. Adicionalmente agregamos algunas modificaciones a al juego original para hacerlo más interesante.\nBien, empecemos explicando las reglas originales. El juego se desarrolla en una cuadricula, cada cuadrado representa una célula, dependiendo si la célula está viva o muerta, su color es diferente.\n1. Para que una nueva célula nazca o reviva, es necesario que esté rodeada por exactamente tres células vecinas vivas. Esta aparecerá en el siguiente turno\n2. Si una célula tiene menos de dos células vecinas vivas, entonces morirá de aislamiento en el siguiente turno. Por otro lado, si tiene más de tres vecinos vivos, morirá de sofocamiento en el próximo turno.\n3. En caso contrario, en donde la célula tenga exactamente dos o tres vecinos vivos, la célula seguirá viva en el siguiente turno.\n");
+        texto1.setWrapStyleWord(true);
+        texto1.setAlignmentX(1.0F);
+        texto1.setBorder(null);
+        texto1.setDisabledTextColor(new java.awt.Color(102, 102, 102));
+        texto1.setFocusable(false);
+        texto1.setMargin(null);
+        texto1.setSelectionColor(new java.awt.Color(102, 102, 102));
+        jScrollPane1.setViewportView(texto1);
+
+        getContentPane().add(jScrollPane1);
+        jScrollPane1.setBounds(30, 60, 318, 528);
+
+        amarilloLabel.setFont(new java.awt.Font("Papyrus", 0, 13)); // NOI18N
+        amarilloLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/amarillo.png"))); // NOI18N
+        amarilloLabel.setText("  Un turno");
+        getContentPane().add(amarilloLabel);
+        amarilloLabel.setBounds(50, 290, 190, 40);
+
+        verdeLabel.setFont(new java.awt.Font("Papyrus", 0, 13)); // NOI18N
+        verdeLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/verde.png"))); // NOI18N
+        verdeLabel.setText("Dos turnos");
+        getContentPane().add(verdeLabel);
+        verdeLabel.setBounds(50, 370, 190, 40);
+
+        rojoLabel.setFont(new java.awt.Font("Papyrus", 0, 13)); // NOI18N
+        rojoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/rojo.png"))); // NOI18N
+        rojoLabel.setText(" Tres turnos");
+        getContentPane().add(rojoLabel);
+        rojoLabel.setBounds(50, 460, 190, 40);
+
+        texto2.setEditable(false);
+        texto2.setColumns(20);
+        texto2.setFont(new java.awt.Font("Papyrus", 0, 13)); // NOI18N
+        texto2.setLineWrap(true);
+        texto2.setRows(5);
+        texto2.setText("En Explorador De La Vida se cumplen las anteriores reglas, pero adicionalmente el juego tiene una nueva característica, especies. Cada especie tiene un tiempo de vida y reproducción diferente a las otras, por lo que su tiempo para evaluar su situación es distinto. Además cada individuo solo puede interactuar con miembros de su misma especie.  \nLas células están diferenciadas de la siguiente forma:\n\n");
+        texto2.setWrapStyleWord(true);
+        texto2.setAlignmentX(1.0F);
+        texto2.setBorder(null);
+        texto2.setDisabledTextColor(new java.awt.Color(102, 102, 102));
+        texto2.setFocusable(false);
+        texto2.setMargin(null);
+        texto2.setSelectionColor(new java.awt.Color(102, 102, 102));
+        jScrollPane2.setViewportView(texto2);
+
+        getContentPane().add(jScrollPane2);
+        jScrollPane2.setBounds(30, 60, 318, 528);
+
+        avanzarPaginaBoton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/right-arrow.png"))); // NOI18N
+        avanzarPaginaBoton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                avanzarPaginaBoton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(avanzarPaginaBoton2);
+        avanzarPaginaBoton2.setBounds(298, 603, 62, 45);
+
+        voleverPaginaBoton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/left-pointing-arrow.png"))); // NOI18N
+        voleverPaginaBoton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                voleverPaginaBoton2ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(voleverPaginaBoton2);
+        voleverPaginaBoton2.setBounds(218, 603, 62, 45);
+
+        playLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/n1.png"))); // NOI18N
+        getContentPane().add(playLabel);
+        playLabel.setBounds(80, 145, 21, 20);
+
+        stepLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/n2.png"))); // NOI18N
+        getContentPane().add(stepLabel);
+        stepLabel.setBounds(80, 190, 21, 20);
+
+        pauseLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/n3.png"))); // NOI18N
+        getContentPane().add(pauseLabel);
+        pauseLabel.setBounds(260, 210, 21, 20);
+
+        stopLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/n4.png"))); // NOI18N
+        getContentPane().add(stopLabel);
+        stopLabel.setBounds(310, 230, 21, 20);
+
+        cargarLabel.setBackground(new java.awt.Color(255, 255, 255));
+        cargarLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        cargarLabel.setForeground(new java.awt.Color(255, 255, 255));
+        cargarLabel.setText("Cargar");
+        getContentPane().add(cargarLabel);
+        cargarLabel.setBounds(178, 315, 50, 20);
+
+        guardarLabel.setBackground(new java.awt.Color(255, 255, 255));
+        guardarLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        guardarLabel.setForeground(new java.awt.Color(255, 255, 255));
+        guardarLabel.setText("Guardar");
+        getContentPane().add(guardarLabel);
+        guardarLabel.setBounds(107, 315, 50, 20);
+
+        menuLabel.setBackground(new java.awt.Color(255, 255, 255));
+        menuLabel.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        menuLabel.setForeground(new java.awt.Color(255, 255, 255));
+        menuLabel.setText("Menu");
+        getContentPane().add(menuLabel);
+        menuLabel.setBounds(213, 271, 50, 20);
+
+        texto3.setEditable(false);
+        texto3.setColumns(20);
+        texto3.setFont(new java.awt.Font("Papyrus", 0, 13)); // NOI18N
+        texto3.setLineWrap(true);
+        texto3.setRows(5);
+        texto3.setText("Para empezar tienes que dar una situación inicial al tablero. Escoge alguna de las especies en la barra desplegable y selecciona los cuadros donde quieres que estén esas células. Luego puedes hacer clic en el botón                   para que los turnos avancen automáticamente; o también puedes hacer clic en el botón                  para avanzar un turno a la vez.\nSi quieres pausar el juego haz clic en                  . Para detener el juego y limpiar el tablero haz clic en                   \nTambién puedes hacer clic en                    para volver al menú. O guardar y cargar una partida al hacer clic en los botones                     y                     respectivamente.\n\n¡¡¡¡¡¡ Que te diviertas explorando!!!!   \n");
+        texto3.setWrapStyleWord(true);
+        texto3.setAlignmentX(1.0F);
+        texto3.setBorder(null);
+        texto3.setDisabledTextColor(new java.awt.Color(102, 102, 102));
+        texto3.setFocusable(false);
+        texto3.setMargin(null);
+        texto3.setSelectionColor(new java.awt.Color(102, 102, 102));
+        jScrollPane3.setViewportView(texto3);
+
+        getContentPane().add(jScrollPane3);
+        jScrollPane3.setBounds(30, 60, 318, 528);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void voleverPaginaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voleverPaginaBotonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_voleverPaginaBotonActionPerformed
+    public void visible(boolean vof, JTextArea texto, JScrollPane cuadro) {
+        texto.setVisible(vof);
+        cuadro.setVisible(vof);
+    }
 
-    private void avanzarPaginaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_avanzarPaginaBotonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_avanzarPaginaBotonActionPerformed
+    public void visible(boolean vof, JToggleButton boton) {
+        boton.setVisible(vof);
+    }
+
+    public void visible(boolean vof, JLabel label) {
+        label.setVisible(vof);
+    }
+
+    public void aparenciaBoton(JToggleButton boton) {
+        boton.setOpaque(false);
+        boton.setContentAreaFilled(false);
+        boton.setBorderPainted(false);
+    }
+    public void visibleLabel(boolean vof){
+        this.playLabel.setVisible(vof);
+        this.stepLabel.setVisible(vof);
+        this.pauseLabel.setVisible(vof);
+        this.stopLabel.setVisible(vof);
+        this.guardarLabel.setVisible(vof);
+        this.cargarLabel.setVisible(vof);
+        this.menuLabel.setVisible(vof);
+        
+    }
+    private void voleverPaginaBoton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voleverPaginaBoton1ActionPerformed
+        visible(true, texto1, jScrollPane1);
+        visible(false, voleverPaginaBoton1);
+        visible(false, texto2, jScrollPane2);
+        visible(true, avanzarPaginaBoton1);
+        visible(false, avanzarPaginaBoton2);
+        visible(false, rojoLabel);
+        visible(false, verdeLabel);
+        visible(false, amarilloLabel);
+    }//GEN-LAST:event_voleverPaginaBoton1ActionPerformed
+
+    
+
+    private void avanzarPaginaBoton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_avanzarPaginaBoton1ActionPerformed
+        visible(false, texto1, jScrollPane1);
+        visible(true, this.voleverPaginaBoton1);
+        visible(true, texto2, jScrollPane2);
+        visible(false, avanzarPaginaBoton1);
+        visible(true, avanzarPaginaBoton2);
+        visible(true, rojoLabel);
+        visible(true, verdeLabel);
+        visible(true, amarilloLabel);
+    }//GEN-LAST:event_avanzarPaginaBoton1ActionPerformed
 
     private void cerrarVentanaBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cerrarVentanaBotonActionPerformed
         hide();
     }//GEN-LAST:event_cerrarVentanaBotonActionPerformed
+
+    private void avanzarPaginaBoton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_avanzarPaginaBoton2ActionPerformed
+        visible(false, texto2, jScrollPane2);
+        visible(true, voleverPaginaBoton2);
+        visible(false, voleverPaginaBoton1);
+        visible(true, texto3, jScrollPane3);
+        visible(false, avanzarPaginaBoton2);
+        visible(false, rojoLabel);
+        visible(false, verdeLabel);
+        visible(false, amarilloLabel);
+        visibleLabel(true);
+    }//GEN-LAST:event_avanzarPaginaBoton2ActionPerformed
+
+    private void voleverPaginaBoton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_voleverPaginaBoton2ActionPerformed
+        visible(false, texto3, jScrollPane3);
+        visible(false, voleverPaginaBoton2);
+        visible(true, voleverPaginaBoton1);
+        visible(true, texto2, jScrollPane2);
+        visible(true, avanzarPaginaBoton2);
+        visible(true, rojoLabel);
+        visible(true, verdeLabel);
+        visible(true, amarilloLabel);
+        visibleLabel(false);
+    }//GEN-LAST:event_voleverPaginaBoton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,8 +364,27 @@ public class Instrucciones extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton avanzarPaginaBoton;
+    private javax.swing.JLabel amarilloLabel;
+    private javax.swing.JToggleButton avanzarPaginaBoton1;
+    private javax.swing.JToggleButton avanzarPaginaBoton2;
+    private javax.swing.JLabel cargarLabel;
     private javax.swing.JToggleButton cerrarVentanaBoton;
-    private javax.swing.JToggleButton voleverPaginaBoton;
+    private javax.swing.JLabel guardarLabel;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JLabel menuLabel;
+    private javax.swing.JLabel pauseLabel;
+    private javax.swing.JLabel playLabel;
+    private javax.swing.JLabel rojoLabel;
+    private javax.swing.JLabel stepLabel;
+    private javax.swing.JLabel stopLabel;
+    private javax.swing.JTextArea texto1;
+    private javax.swing.JTextArea texto2;
+    private javax.swing.JTextArea texto3;
+    private javax.swing.JLabel tituloLabel;
+    private javax.swing.JLabel verdeLabel;
+    private javax.swing.JToggleButton voleverPaginaBoton1;
+    private javax.swing.JToggleButton voleverPaginaBoton2;
     // End of variables declaration//GEN-END:variables
 }
