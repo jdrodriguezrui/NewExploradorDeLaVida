@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package exploradordelavida.logic;
 
 import helper.ComboBoxRenderer;
@@ -16,34 +11,26 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.Timer;
-import javax.swing.WindowConstants;
+import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import menu.Memoria;
 import menu.Menu;
 
-/**
- *
- * @author julia
- */
 public class GameFrame extends JFrame {
 
     public Board gameBoard;
     private Thread music;
     public static int selectedSpecie = Cell.BLACK_SPECIES;
-
-    //Persistencia boi
     private Memoria memoria;
-    //Simulation boi
     private int gameSpeed;
     private Timer timer;
     private FileNameExtensionFilter filtro = new FileNameExtensionFilter(".EJI", "EJI");
+    private int turnsPerSecond = 1;
 
     //-----------------STANDARD CONSTRUCTOR-----------------
     public GameFrame() {
@@ -55,8 +42,8 @@ public class GameFrame extends JFrame {
 
         this.memoria = new Memoria();
         //Simulation stuff
-        this.setGameSpeed(1);                                               // NEW!!! Default speed = 1 second
-        this.timer = new Timer(this.gameSpeed, new EventListenerForSimulation(this)); // NEW!!!
+        this.setGameSpeed(2);
+        this.timer = new Timer(this.gameSpeed, new EventListenerForSimulation(this));
         //Adding the Game Board!!
         this.getContentPane().add(gameBoard, BorderLayout.CENTER);
 
@@ -72,7 +59,6 @@ public class GameFrame extends JFrame {
     }
 
     //--------------Constructor de cuando se carga una partida----------------------
-
     public GameFrame(Board gameBoard) {
         super("Explorador de la vida");
         this.setPreferredSize(new Dimension(800, 800));
@@ -82,8 +68,8 @@ public class GameFrame extends JFrame {
         this.gameBoard = gameBoard;
 
         //Simulation stuff
-        this.setGameSpeed(1);                                              
-        this.timer = new Timer(this.gameSpeed, new EventListenerForSimulation(this));
+        this.setGameSpeed(2);                                               // NEW!!! Default speed = 1 second
+        //this.timer = new Timer(this.gameSpeed, new EventListenerForSimulation(this)); // NEW!!!
         //Adding the Game Board!!
         this.getContentPane().add(gameBoard, BorderLayout.CENTER);
 
@@ -100,7 +86,8 @@ public class GameFrame extends JFrame {
 
     //Internal Functions
     public void setGameSpeed(int secondsPerTurn) {
-        this.gameSpeed = secondsPerTurn * 250;
+        this.gameSpeed = 500/secondsPerTurn;  //milisegundos
+        this.timer = new Timer(this.gameSpeed, new EventListenerForSimulation(this));
     }
 
     public void doSimulation() {
@@ -116,7 +103,6 @@ public class GameFrame extends JFrame {
     }
 
     // -----------------------Guardar y cargar partida------------------------   
-    
     public void saveGame() throws IOException {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(filtro);
@@ -236,6 +222,30 @@ public class GameFrame extends JFrame {
             }
         });
         menuPanel.add(specieSelector);
+        //-----SLIDER DE VELOCIDAD----
+        JSlider slider = new JSlider(1, 5,2);
+        JLabel mensaje = new JLabel("Velocidad");
+        mensaje.setForeground(Color.WHITE);
+        slider.setPreferredSize(new Dimension(120, 60));
+        slider.setBackground(Color.GRAY);
+        Hashtable table = new Hashtable();        
+        table.put(new Integer(1), new JLabel());
+        table.put(new Integer(2), new JLabel());
+        table.put(new Integer(3), mensaje);
+        table.put(new Integer(4), new JLabel());
+        table.put(new Integer(5), new JLabel());
+        slider.setLabelTable(table);
+        slider.setPaintLabels(true);
+        slider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent ce) {
+                JSlider source = (JSlider) ce.getSource();
+                GameFrame.this.timer.stop();
+                GameFrame.this.setGameSpeed((int)source.getValue());
+            }
+        });
+
+        menuPanel.add(slider);
         //-----PLAY---- 
         FancyButton playButton = new FancyButton("play", 1);
         playButton.addActionListener(new ActionListener() {
@@ -268,6 +278,7 @@ public class GameFrame extends JFrame {
         restartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
+                pauseSimulation();
                 restartGame();
             }
         });

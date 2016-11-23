@@ -2,8 +2,9 @@ package exploradordelavida.logic;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
-public class EventListenerForSimulation implements ActionListener
+public class EventListenerForSimulation implements ActionListener,Serializable
 {
 
     private GameFrame gameFrame;

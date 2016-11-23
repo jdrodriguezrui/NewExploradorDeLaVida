@@ -6,9 +6,7 @@ import java.awt.Graphics;
 import java.io.Serializable;
 import javax.swing.JButton;
 
-public class Cell extends JButton implements Serializable{
-
-    // ----------------------------------------------------------------------------------- ATTRIBUTES
+public class Cell extends JButton implements Serializable {
 
     private Position position;
     private boolean isAlive;
@@ -16,9 +14,11 @@ public class Cell extends JButton implements Serializable{
     private int turnsToBeBornBlack;
     private int turnsToBeBornGreen;
     private int turnsToBeBornRed;
+    private int turnsToDieIfBlack; // *
+    private int turnsToDieIfGreen;  // *
+    private int turnsToDieIfRed; // *
 
     // ----------------------------------------------------------------------------------- CONSTANTS
-
     public static final int NO_SPECIES = 0;
     public static final int BLACK_SPECIES = 1;
     public static final int GREEN_SPECIES = 2;
@@ -33,13 +33,12 @@ public class Cell extends JButton implements Serializable{
         this.turnsToBeBornBlack = 1;
         this.turnsToBeBornGreen = 2;
         this.turnsToBeBornRed = 3;
+        this.turnsToDieIfBlack = 1;
+        this.turnsToDieIfGreen = 2;
+        this.turnsToBeBornRed = 3;
 
-        // IMPORTANT! We gotta link a Listener to the Cell here, on it's constructor. It would be done like this:
         this.addActionListener(new ClickListenerForCell(this));
-
-        //DEFAULT DEAD COLOR!!
         this.setBackground(Color.DARK_GRAY.brighter());
-        //this.setText(this.position.toString()); *Testing only*
     }
 
     // ----------------------------------------------------------------------------------- METHODS
@@ -52,6 +51,7 @@ public class Cell extends JButton implements Serializable{
     public void turnToDead() {
         this.species = Cell.NO_SPECIES;
         this.isAlive = false;
+        this.restartCounters();
     }
 
     public void switchState(int species) {
@@ -66,6 +66,9 @@ public class Cell extends JButton implements Serializable{
         this.turnsToBeBornBlack = 1;
         this.turnsToBeBornGreen = 2;
         this.turnsToBeBornRed = 3;
+        this.turnsToDieIfBlack = 1;
+        this.turnsToDieIfGreen = 2;
+        this.turnsToDieIfRed = 3;
     }
 
     public Position getPosition() {
@@ -99,12 +102,34 @@ public class Cell extends JButton implements Serializable{
     public void setTurnsToBeBornRed(int turnsToBeBornRed) {
         this.turnsToBeBornRed = turnsToBeBornRed;
     }
-    
-        public void setSpecies ( int newSpecies )
-    {
-        this.species = newSpecies;
+
+    public int getTurnsToDieIfBlack() {
+        return turnsToDieIfBlack;
     }
 
+    public void setTurnsToDieIfBlack(int turnsToDieIfBlack) {
+        this.turnsToDieIfBlack = turnsToDieIfBlack;
+    }
+
+    public int getTurnsToDieIfGreen() {
+        return turnsToDieIfGreen;
+    }
+
+    public void setTurnsToDieIfGreen(int turnsToDieIfGreen) {
+        this.turnsToDieIfGreen = turnsToDieIfGreen;
+    }
+
+    public int getTurnsToDieIfRed() {
+        return turnsToDieIfRed;
+    }
+
+    public void setTurnsToDieIfRed(int turnsToDieIfRed) {
+        this.turnsToDieIfRed = turnsToDieIfRed;
+    }
+
+    public void setSpecies(int newSpecies) {
+        this.species = newSpecies;
+    }
 
     public boolean isAlive() {
         return this.isAlive;
@@ -132,10 +157,9 @@ public class Cell extends JButton implements Serializable{
         }
 
     }
-    
+
     @Override
-    public String toString()
-    {
-        return "Cell, specie "+this.species+" Is alive? "+this.isAlive;
+    public String toString() {
+        return "Cell, specie " + this.species + " Is alive? " + this.isAlive;
     }
 }

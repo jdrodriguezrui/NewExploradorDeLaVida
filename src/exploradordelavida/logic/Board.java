@@ -2,54 +2,62 @@ package exploradordelavida.logic;
 
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.io.Serializable;
 import javax.swing.JPanel;
 import java.util.TreeMap;
+import java.io.Serializable;
 
-public class Board extends JPanel implements Serializable {
+public class Board extends JPanel implements Serializable
+{
 
     // ----------------------------------------------------------------------------------- ATTRIBUTES
-    private final int sideLength; // IMPORTANT! Each unit is a cell... And this is a squared board.
-    public TreeMap<Position, Cell> cells;
-    private TreeMap<Position, Cell> oldGeneration;
-    private final int drawingMargin = 3;
-    public static final int DEFAULT_SIZE = 50;
-                                                        // This is for internal functioning only! It's filled in
-    // checkNewGeneration and used - cleaned in checkOldGeneration,
-    // and, by the way, contains the cells alive before
-    // checkNewGeneration
+
+    private final int sideLength; // Number of visible cells per board side (squared board)
+    public TreeMap<Position, Cell> cells; // All the cells on the board with their CURRENT state
+    private TreeMap<Position, Cell> oldGeneration; // All the cells on the board with the state they had as a new
+                                                   // turn began (that is, without the changes related to the turn's
+                                                   // operations).
+    private final int drawingMargin = 3; // Number of invisible cells per board side. They help us to have a soft
+                                         // transition when a cell reaches the board's sidelines (remember the board is
+                                         // "infinite")
+    public static int DEFAULT_SIZE = 50;
 
     // ----------------------------------------------------------------------------------- CONSTRUCTOR
-    public Board(int newSideLength) {
-        super();
-        this.sideLength = newSideLength;
-        this.cells = new TreeMap<>();
-        this.oldGeneration = new TreeMap<>();
-        this.fillBoard();
+    public Board(int newSideLength)
+    {
+        super ( );
 
-        //Graphic shit my boy
-        
-        /*this.setLayout(new GridLayout(this.sideLength , this.sideLength ));
-        for (Cell cell : this.cells.values()) {
-         this.add(cell);     //DEPRECATED, UNABLE TO SET A MARGIN WITH THIS!!
-         }*/
-        this.setLayout(new GridLayout(this.sideLength - drawingMargin-2, this.sideLength - drawingMargin));
+        // . . . . . . . . . . . . . . . . . . .  LOGIC
+
+        this.sideLength = newSideLength;
+        this.cells = new TreeMap <> ();
+        this.oldGeneration = new TreeMap <> ();
+        this.fillBoard ( );
+
+        // . . . . . . . . . . . . . . . . . . . GRAPHICS
+
+        this.setLayout ( new GridLayout ( this.sideLength-drawingMargin - 2 , this.sideLength-drawingMargin ) );
         Position aPosition;
-        for (int i = drawingMargin; i <= this.sideLength - drawingMargin; i = i + 1) {
-            for (int j = drawingMargin; j <= this.sideLength - drawingMargin; j = j + 1) {
-                aPosition = new Position(j, i);
+        for ( int i = drawingMargin ; i <= this.sideLength-drawingMargin ; i = i + 1 )
+        {
+            for ( int j = drawingMargin ; j <= this.sideLength-drawingMargin ; j = j + 1 )
+            {
+                aPosition = new Position ( j , i );
                 this.add(cells.get(aPosition));
             }
         }
+
     }
 
     // ----------------------------------------------------------------------------------- METHODS
-    public void fillBoard() // Fills the board (technically, this.cells) with new Cell instances...
+
+    public void fillBoard ( ) // Fills the board (technically, this.cells) with new Cell instances...
     {
         Position aPosition;
 
-        for (int i = 1; i <= this.sideLength; i = i + 1) {
-            for (int j = 1; j <= this.sideLength; j = j + 1) {
+        for (int i = 1; i <= this.sideLength; i = i + 1)
+        {
+            for (int j = 1; j <= this.sideLength; j = j + 1)
+            {
                 aPosition = new Position(j, i);
                 this.cells.put(aPosition, new Cell(aPosition));
             }
@@ -57,7 +65,7 @@ public class Board extends JPanel implements Serializable {
     }
 
     public void saveOldGeneration() // We put new objects here so that their life isn't depending upon their
-    // "equals" on this.cells
+                                    // "equals" on this.cells
     {
         Cell cellToPut;
 
@@ -65,40 +73,54 @@ public class Board extends JPanel implements Serializable {
             if (cell.isAlive()) {
                 cellToPut = new Cell(cell.getPosition());
                 cellToPut.setSpecies(cell.getSpecies());
-                this.oldGeneration.put(cell.getPosition(), cellToPut); // CHANGES ALL OVER HERE!
+                this.oldGeneration.put(cell.getPosition(), cellToPut); // Each cell on this.cells has an equivalent
+                                                                       // here. It's a different object, but it
+                                                                       // shares some relevant characteristics with
+                                                                       // the one on this.cells (it's species and
+                                                                       // position). Such characteristics happen to be
+                                                                       // important to apply the game's rules.
             }
         }
     }
 
-    public void checkNewGeneration() {
+    public void checkNewGeneration ( ) // Apply the rules to know which cells are to be born.
+    {
         int blackCellsAround;
         int greenCellsAround;
         int redCellsAround;
         Cell neighbour;
 
-        for (Cell cell : this.cells.values()) {
+        for (Cell cell : this.cells.values())
+        {
             if (!cell.isAlive()) {
                 blackCellsAround = 0;
                 greenCellsAround = 0;
                 redCellsAround = 0;
 
-                for (Position position : cell.getPosition().adjacentPositions()) {
-                    neighbour = this.oldGeneration.get(position); // CHANGE: It used to be -this.cells.get-
+                for (Position position : cell.getPosition().adjacentPositions())
+                {
+                    neighbour = this.oldGeneration.get(position);
 
-                    if (neighbour != null) {
-                        if (neighbour.getSpecies() == Cell.BLACK_SPECIES) {
+                    if (neighbour != null)
+                    {
+                        if (neighbour.getSpecies() == Cell.BLACK_SPECIES)
+                        {
                             blackCellsAround = blackCellsAround + 1;
-                        } else if (neighbour.getSpecies() == Cell.GREEN_SPECIES) {
+                        } else if (neighbour.getSpecies() == Cell.GREEN_SPECIES)
+                        {
                             greenCellsAround = greenCellsAround + 1;
-                        } else if (neighbour.getSpecies() == Cell.RED_SPECIES) {
+                        } else if (neighbour.getSpecies() == Cell.RED_SPECIES)
+                        {
                             redCellsAround = redCellsAround + 1;
                         }
                     }
                 }
 
-                if (blackCellsAround == 3) {
+                if (blackCellsAround == 3)
+                {
                     cell.setTurnsToBeBornBlack(cell.getTurnsToBeBornBlack() - 1);
-                    if (cell.getTurnsToBeBornBlack() == 0) {
+                    if (cell.getTurnsToBeBornBlack() == 0)
+                    {
                         cell.bringToLife(Cell.BLACK_SPECIES);
                     }
                 } else // This means important things: a) if there are less than 3 neighbours of the species, the count
@@ -111,28 +133,37 @@ public class Board extends JPanel implements Serializable {
                     // too!
                 }
 
-                if (greenCellsAround == 3) {
+                if (greenCellsAround == 3)
+                {
                     cell.setTurnsToBeBornGreen(cell.getTurnsToBeBornGreen() - 1);
-                    if (cell.getTurnsToBeBornGreen() == 0) {
+                    if (cell.getTurnsToBeBornGreen() == 0)
+                    {
                         cell.bringToLife(Cell.GREEN_SPECIES);
                     }
-                } else {
+                }
+                else
+                {
                     cell.setTurnsToBeBornGreen(Cell.GREEN_SPECIES);
                 }
 
-                if (redCellsAround == 3) {
+                if (redCellsAround == 3)
+                {
                     cell.setTurnsToBeBornRed(cell.getTurnsToBeBornRed() - 1);
-                    if (cell.getTurnsToBeBornRed() == 0) {
+                    if (cell.getTurnsToBeBornRed() == 0)
+                    {
                         cell.bringToLife(Cell.RED_SPECIES);
                     }
-                } else {
+                }
+                else
+                    {
                     cell.setTurnsToBeBornRed(Cell.RED_SPECIES);
                 }
             }
         }
     }
 
-    public void checkOldGeneration() // We must not go over the cells we just gave birth to!
+    public void checkOldGeneration() // Check which cells from those alive by the time the current run started should
+                                     // die
     {
         int sameSpeciesCellsAround;
         Cell neighbour;
@@ -149,15 +180,49 @@ public class Board extends JPanel implements Serializable {
                 }
             }
 
-            if ((cell.getPosition().getX() == this.sideLength) || (cell.getPosition().getX() == 1) || (cell.getPosition().getY() == this.sideLength) || (cell.getPosition().getY() == 1)) {
+            if ( ( cell.getPosition().getX() == this.sideLength ) || ( cell.getPosition().getX() == 1) ||
+                    ( cell.getPosition().getY() == this.sideLength ) || ( cell.getPosition().getY() == 1 ) )
+            {
                 this.cells.get(cell.getPosition()).turnToDead();
-            } else if ((sameSpeciesCellsAround < 2) || (sameSpeciesCellsAround > 3)) {
-                this.cells.get(cell.getPosition()).turnToDead();
+            }
+            else if ((sameSpeciesCellsAround < 2) || (sameSpeciesCellsAround > 3))
+            {
+
+                if ( this.cells.get ( cell.getPosition() ).getSpecies() == Cell.BLACK_SPECIES )
+                {
+                    this.cells.get ( cell.getPosition() ).setTurnsToDieIfBlack ( this.cells.get ( cell.getPosition()
+                    ).getTurnsToDieIfBlack() - 1 );
+
+                    if ( this.cells.get ( cell.getPosition() ).getTurnsToDieIfBlack() == 0 )
+                    {
+                        this.cells.get(cell.getPosition()).turnToDead();
+                    }
+                }
+                else if ( this.cells.get ( cell.getPosition() ).getSpecies() == Cell.GREEN_SPECIES )
+                {
+                    this.cells.get ( cell.getPosition() ).setTurnsToDieIfGreen ( this.cells.get ( cell.getPosition()
+                    ).getTurnsToDieIfGreen() - 1 );
+
+                    if ( this.cells.get ( cell.getPosition() ).getTurnsToDieIfGreen() == 0 )
+                    {
+                        this.cells.get(cell.getPosition()).turnToDead();
+                    }
+                }
+                else
+                {
+                    this.cells.get ( cell.getPosition() ).setTurnsToDieIfRed ( this.cells.get ( cell.getPosition()
+                    ).getTurnsToDieIfRed() - 1 );
+
+                    if ( this.cells.get ( cell.getPosition() ).getTurnsToDieIfRed() == 0 )
+                    {
+                        this.cells.get(cell.getPosition()).turnToDead();
+                    }
+                }
             }
         }
     }
 
-    public void refreshBoard() // The order at which the methods are executed matters!!!
+    public void refreshBoard() // Change the board's state based on the application of the game's rules
     {
         this.saveOldGeneration();
         this.checkNewGeneration();
@@ -165,20 +230,24 @@ public class Board extends JPanel implements Serializable {
         this.oldGeneration.clear();
     }
 
-    public void doTurn() {
+    public void doTurn()
+    {
         this.refreshBoard();
         this.repaint();
     }
 
-    public void clearBoard() {
-        for (Cell cell : this.cells.values()) {
+    public void clearBoard()
+    {
+        for (Cell cell : this.cells.values() )
+        {
             cell.turnToDead();
         }
         this.repaint();
     }
 
     @Override
-    public void paintComponent(Graphics graphics) {
+    public void paintComponent(Graphics graphics)
+    {
         super.paintComponent(graphics);
     }
 }
